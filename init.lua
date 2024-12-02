@@ -73,12 +73,12 @@ require("packer").startup(function(use)
     use("nvim-lualine/lualine.nvim") -- Statusline
     use("nvim-telescope/telescope.nvim") -- Fuzzy Finder
     use("nvim-lua/plenary.nvim") -- Dependency for Telescope
+    use("github/copilot.vim")
 
     if packer_bootstrap then
         require("packer").sync()
     end
 end)
-
 -- Settings
 vim.opt.termguicolors = true
 vim.opt.number = true
@@ -115,7 +115,6 @@ require("nvim-treesitter.configs").setup {
         enable = true
     }
 }
-
 -- Statusline
 require("lualine").setup()
 
