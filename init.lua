@@ -91,15 +91,23 @@ vim.opt.cursorline = true
 -- Keymaps
 require("keymaps")
 
+-- Open NvimTree and ToggleTerm on startup
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+        -- Open NvimTree
+        require("nvim-tree.api").tree.open()
+        -- Open ToggleTerm
+        --vim.cmd("ToggleTerm")
+    end
+})
 
 -- Nvim Tree Setup
 require("nvim-tree").setup()
-
 -- ToggleTerm Setup
 require("toggleterm").setup {
     open_mapping = [[<C-\>]],
     direction = "horizontal",
-    size = 5
+    size = 10
 }
 
 -- LSP Setup
@@ -107,14 +115,26 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 require("lspconfig").clangd.setup{} -- C/C++ LSP
 require("rust-tools").setup{} -- Rust LSP
-
+    
 -- Treesitter Setup
 require("nvim-treesitter.configs").setup {
-    ensure_installed = { "c", "cpp", "rust", "lua" },
+    ensure_installed = { "c", "cpp", "rust", "lua", "python" },
     highlight = {
-        enable = true
+        enable = true,
+    },
+    incremental_selection = {
+        enable = true,
+    },
+    indent = {
+        enable = true,
     }
 }
+
+-- Use Treesitter for folding
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldenable = false -- Start with folds closed
+
 -- Statusline
 require("lualine").setup()
 
