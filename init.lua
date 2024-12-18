@@ -107,8 +107,23 @@ require("nvim-tree").setup()
 require("toggleterm").setup {
     open_mapping = [[<C-\>]],
     direction = "horizontal",
-    size = 10
+    size = 10,
+    persist_size = false
 }
+
+vim.api.nvim_create_autocmd("VimResized", {
+    callback = function()
+        -- For horizontal terminals, reset the size to 10
+        local ok, toggleterm = pcall(require, "toggleterm.terminal")
+        if ok then
+            for _, term in pairs(toggleterm.get_all()) do
+                if term.direction == "horizontal" then
+                    term:resize(10)
+                end
+            end
+        end
+    end
+})
 
 -- LSP Setup
 require("mason").setup()
