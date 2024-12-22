@@ -96,20 +96,25 @@ vim.api.nvim_create_autocmd("VimEnter", {
     callback = function()
         -- Open NvimTree
         require("nvim-tree.api").tree.open()
-        -- Open ToggleTerm
-        --vim.cmd("ToggleTerm")
+        -- Open ToggleTerm without entering terminal mode
+        vim.cmd("ToggleTerm")
+        vim.cmd("wincmd p") -- Switch back to the previous window (normal mode)
     end
 })
 
--- Nvim Tree Setup
-require("nvim-tree").setup()
--- ToggleTerm Setup
+-- Prevent entering terminal mode on toggling terminal
 require("toggleterm").setup {
     open_mapping = [[<C-\>]],
     direction = "horizontal",
     size = 10,
-    persist_size = false
+    persist_size = false,
+    on_open = function(term)
+        vim.cmd("stopinsert") -- Ensure terminal starts in normal mode
+    end
 }
+-- Nvim Tree Setup
+require("nvim-tree").setup()
+
 
 vim.api.nvim_create_autocmd("VimResized", {
     callback = function()
