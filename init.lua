@@ -30,7 +30,6 @@ require("packer").startup(function(use)
     -- File Explorer
     use {
         "nvim-tree/nvim-tree.lua",
-        requires = { "nvim-tree/nvim-web-devicons" }
     }
 
     -- Terminal Toggle
@@ -113,7 +112,24 @@ require("toggleterm").setup {
     end
 }
 -- Nvim Tree Setup
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+  renderer = {
+    icons = {
+      glyphs = {
+        default = "📄",   -- files
+        symlink = "🔗",
+        folder = {
+          arrow_closed = "▶", -- closed arrow
+          arrow_open = "▼",   -- open arrow
+          default = "📁",
+          open = "📂",
+          empty = "🗀",
+          empty_open = "🗁",
+        },
+      },
+    },
+  },
+})
 
 
 vim.api.nvim_create_autocmd("VimResized", {
