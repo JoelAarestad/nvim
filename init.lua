@@ -79,13 +79,15 @@ require("packer").startup(function(use)
     end
 end)
 -- Settings
-vim.opt.termguicolors = true
+vim.opt.termguicolors = truegg
 vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.cursorline = true
+-- make clipboard work with system clipboard
+vim.opt.clipboard = "unnamedplus"
 
 -- Keymaps
 require("keymaps")
