@@ -15,6 +15,9 @@ return {
         -- Always open in Normal mode; press i to start typing in the terminal.
         start_in_insert = false,
         persist_mode = false,
+        on_open = function(term)
+            vim.wo[term.window].signcolumn = "no" -- the sign column would only indent the output
+        end,
     },
     config = function(_, opts)
         require("toggleterm").setup(opts)

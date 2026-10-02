@@ -16,12 +16,6 @@ opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldlevel = 99
 opt.foldtext = "" -- show a closed fold as its first line, with syntax highlighting
 
--- Share the system clipboard. Needs a clipboard tool: xclip or xsel (X11) or wl-clipboard (Wayland).
--- Scheduled because detecting the clipboard tool can slow down startup.
-vim.schedule(function()
-    opt.clipboard = "unnamedplus"
-end)
-
 -- nvim-tree replaces the built-in file browser (netrw), which has to be disabled before it loads.
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

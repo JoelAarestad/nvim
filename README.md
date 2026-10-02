@@ -23,18 +23,19 @@ sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 echo 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' >> ~/.bashrc   # or ~/.zshrc; then open a new terminal
 ```
 
-**System tools** (git, a C compiler, ripgrep for text search, a clipboard tool, lldb for debugging):
+**System tools** (git, a C compiler, ripgrep for text search, clipboard tools, lldb for debugging):
 
 ```bash
-# Ubuntu / Debian
-sudo apt install git build-essential curl unzip tar ripgrep xclip lldb
-# Fedora
-sudo dnf install git gcc make curl unzip tar ripgrep xclip lldb
 # Arch
-sudo pacman -S --needed git base-devel curl unzip tar ripgrep xclip lldb
+sudo pacman -S --needed git base-devel curl unzip tar ripgrep wl-clipboard xclip lldb
+# Ubuntu / Debian
+sudo apt install git build-essential curl unzip tar ripgrep wl-clipboard xclip lldb
+# Fedora
+sudo dnf install git gcc make curl unzip tar ripgrep wl-clipboard xclip lldb
 ```
 
-On Wayland, use `wl-clipboard` instead of `xclip`.
+`wl-clipboard` (Wayland: KDE, GNOME, Hyprland, Sway, ...) and `xclip` (X11: i3, bspwm, Xfce, ...) let
+Neovim copy and paste with other programs. Installing both covers either kind of session.
 
 **Rust** (only if you write Rust): `rustup component add rust-analyzer`
 
@@ -87,6 +88,19 @@ Mason installs clangd and Treesitter compiles its parsers. Give it a minute, the
 ## 3. Keymaps
 
 The leader key is **Space**.
+
+**Copy and paste** (works with other programs through the system clipboard)
+
+| Keys | Action |
+| --- | --- |
+| Select text, then right-click | Copy / Cut / Paste menu |
+| `Ctrl-C` / `Ctrl-X` | Copy / cut the selection |
+| `Ctrl-V` | Paste (also in the terminal pane and on the `:` command line) |
+| `Ctrl-Shift-V` | Your terminal's own paste; always works |
+| `Ctrl-Q` | Block (column) selection, which is what `Ctrl-V` does in plain Vim |
+| `y` / `p` | Vim's copy and paste use the system clipboard too |
+
+**General**
 
 | Keys | Action |
 | --- | --- |
@@ -156,8 +170,9 @@ The leader key is **Space**.
 | File | What's in it |
 | --- | --- |
 | `init.lua` | Entry point |
-| `lua/config/options.lua` | Editor settings (tabs, line numbers, folding, clipboard) |
+| `lua/config/options.lua` | Editor settings (tabs, line numbers, folding) |
 | `lua/config/keymaps.lua` | General keymaps |
+| `lua/config/clipboard.lua` | Copy and paste with other programs |
 | `lua/config/autocmds.lua` | Startup layout (tree + terminal) |
 | `lua/plugins/*.lua` | One file per plugin, including its keymaps |
 
@@ -169,7 +184,10 @@ The leader key is **Space**.
 ## Troubleshooting
 
 - **Icons show as boxes**: your terminal font has no emoji. Install an emoji font (e.g. `fonts-noto-color-emoji`).
-- **Copying doesn't reach the system clipboard**: install `xclip` (X11) or `wl-clipboard` (Wayland).
+- **Copy/paste doesn't reach other programs**: install `wl-clipboard` (Wayland) or `xclip` (X11); Neovim
+  warns at startup when the one you need is missing. `:checkhealth vim.provider` shows which tool it uses.
+  Without one, copying still works through the terminal in most terminals (kitty, foot, Alacritty, WezTerm,
+  Konsole), and `Ctrl-Shift-V` pastes from other programs.
 - **"Can't install Treesitter parsers"**: install the tree-sitter CLI (see Requirements), then restart Neovim.
 - **No completion or go-to-definition in C/C++**: check `:Mason` shows clangd as installed. For projects
   with a build system, clangd needs a `compile_commands.json` (CMake: `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON`).

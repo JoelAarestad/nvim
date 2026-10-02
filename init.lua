@@ -2,6 +2,7 @@
 --
 --   lua/config/options.lua   editor settings
 --   lua/config/keymaps.lua   general keymaps (plugin keymaps live next to each plugin)
+--   lua/config/clipboard.lua copy/paste with other programs (Ctrl-C/X/V, right-click menu)
 --   lua/config/autocmds.lua  startup layout (file tree + terminal) and other autocommands
 --   lua/config/lazy.lua      plugin manager (lazy.nvim)
 --   lua/plugins/*.lua        one file per plugin / feature
@@ -22,5 +23,6 @@ vim.g.maplocalleader = " "
 
 require("config.options")
 require("config.keymaps")
+require("config.clipboard")
 require("config.autocmds")
 require("config.lazy")
